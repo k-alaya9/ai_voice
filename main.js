@@ -1,7 +1,7 @@
 async function init() {
   console.log("🚀 init() called");
   // Get an ephemeral key from your server - see server code below
-  const tokenResponse = await fetch("http://127.0.0.1:3000/session");
+  const tokenResponse = await fetch("http://127.0.0.1:3000/aivoice");
   const data = await tokenResponse.json();
   console.log(data)
   const EPHEMERAL_KEY = data.client_secret.value;
