@@ -1,7 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs/internal/firstValueFrom';
-require('dotenv').config();
 @Injectable()
 export class AivoiceService {
     private prompt: string = `
