@@ -1,9 +1,8 @@
 async function init() {
   console.log("🚀 init() called");
   // Get an ephemeral key from your server - see server code below
-  const tokenResponse = await fetch("http://127.0.0.1:3000/aivoice");
+  const tokenResponse = await fetch("https://aivoice-production-7e0b.up.railway.app/aivoice");
   const data = await tokenResponse.json();
-  console.log(data)
   const EPHEMERAL_KEY = data.client_secret.value;
 
   // Create a peer connection
@@ -15,7 +14,17 @@ async function init() {
   document.body.appendChild(audioEl);
   audioEl.controls = true;
   pc.ontrack = e => audioEl.srcObject = e.streams[0];
-
+  const endbtn = document.createElement("button");
+  endbtn.textContent = "End Session"; // Optional: gives the button a label
+  
+  endbtn.style.position = 'fixed';
+  endbtn.style.bottom = '20px';
+  endbtn.style.right = '20px';
+  endbtn.style.padding = '10px 20px';
+  endbtn.style.background = 'red';
+  endbtn.style.color = 'white';
+  endbtn.addEventListener('click', closeSession);
+  document.body.appendChild(endbtn);
   // Add local audio track for microphone input in the browser
   const ms = await navigator.mediaDevices.getUserMedia({
     audio: true
@@ -49,6 +58,17 @@ async function init() {
     sdp: await sdpResponse.text(),
   };
   await pc.setRemoteDescription(answer);
+  function closeSession() {
+    if (pc) {
+      pc.close();
+      console.log("🛑 RTCPeerConnection closed");
+    }
+    if (ms) {
+      ms.getTracks().forEach(track => track.stop());
+      console.log("🎤 MediaStream tracks stopped");
+    }
+  }
 }
 
-init();
+
+// init();
