@@ -5,7 +5,7 @@ import { hostname } from 'os';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: 'http://127.0.0.1:8080',
+    origin: 'https://k-alaya9.github.io',
     methods: 'GET',
     credentials: true,
   });
